@@ -1,0 +1,89 @@
+mkdir -p my-landing/app && cd my-landing
+
+cat << 'EOF' > package.json
+{
+  "name": "next-landing",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
+EOF
+
+cat << 'EOF' > app/globals.css
+:root { --bg: #0d0f12; --card-bg: #161b22; --text: #f0f6fc; --text-muted: #8b949e; --accent: #58a6ff; --accent-hover: #1f6feb; --border: #30363d; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background-color: var(--bg); color: var(--text); font-family: system-ui, sans-serif; line-height: 1.6; }
+.container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--border); }
+.logo { font-size: 1.25rem; font-weight: 700; color: var(--text); text-decoration: none; }
+.hero { padding: 100px 0 60px; text-align: center; }
+.hero h1 { font-size: 3rem; margin-bottom: 20px; }
+.hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 30px; }
+.btn { display: inline-block; background-color: var(--accent); color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; }
+.btn:hover { background-color: var(--accent-hover); }
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 60px 0; }
+.card { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
+.card h3 { margin-bottom: 10px; }
+.card p { color: var(--text-muted); font-size: 0.95rem; }
+.footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.9rem; }
+EOF
+
+cat << 'EOF' > app/layout.js
+import './globals.css';
+export const metadata = { title: 'Dark Landing Page', description: 'Minimal Next.js Landing Page' };
+export default function RootLayout({ children }) {
+  return (
+    <html lang="uk">
+      <body>{children}</body>
+    </html>
+  );
+}
+EOF
+
+cat << 'EOF' > app/page.js
+export default function Home() {
+  return (
+    <div className="container">
+      <header className="header">
+        <a href="#" className="logo">DevProduct</a>
+        <a href="#get-started" className="btn">Розпочати</a>
+      </header>
+      <main>
+        <section className="hero">
+          <h1>Швидкий старт для вашого проекту</h1>
+          <p>Мінімалістичний лендінг на Next.js App Router без зайвих залежностей.</p>
+          <a href="#get-started" className="btn">Спробувати безкоштовно</a>
+        </section>
+        <section className="features">
+          <div className="card">
+            <h3>Максимальна швидкість</h3>
+            <p>Використання чистих CSS-змінних забезпечує миттєве завантаження.</p>
+          </div>
+          <div className="card">
+            <h3>App Router</h3>
+            <p>Сучасна архітектура Next.js з Server Components за замовчуванням.</p>
+          </div>
+          <div className="card">
+            <h3>Темна тема</h3>
+            <p>Контрастна та комфортна для очей колірна гама.</p>
+          </div>
+        </section>
+      </main>
+      <footer className="footer">
+        <p>&copy; {new Date().getFullYear()} DevProduct. Усі права захищено.</p>
+      </footer>
+    </div>
+  );
+}
+EOF
+
+cd .. && zip -r next-landing.zip my-landing
